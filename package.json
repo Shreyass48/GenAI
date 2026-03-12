@@ -1,0 +1,27 @@
+{
+  "name": "invoke-llm",
+  "version": "1.0.0",
+  "description": "LLM API",
+  "keywords": [
+    "LLM"
+  ],
+  "homepage": "https://github.com/Shreyass48/GenAI#readme",
+  "bugs": {
+    "url": "https://github.com/Shreyass48/GenAI/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shreyass48/GenAI.git"
+  },
+  "license": "ISC",
+  "author": "Shreyas",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "groq-sdk": "^1.1.1"
+  }
+}
