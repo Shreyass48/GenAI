@@ -64,7 +64,7 @@ invoke-LLM
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/gym-workout-optimizer.git
+git clone https://github.com/Shreyass48/gym-workout-optimizer.git
 cd gym-workout-optimizer
 ```
 
