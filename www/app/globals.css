@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #050509;
+    --foreground: #e5e7eb;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Icons",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  overflow: hidden;
+}
+
+/* Chat layout */
+.chat-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: 100vh;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+  color: #e5e7eb;
+}
+
+.chat-sidebar {
+  border-right: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(
+    circle at top left,
+    #020617 0,
+    #020617 35%,
+    #000 100%
+  );
+}
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+.chat-input-wrapper {
+  border-top: 1px solid rgba(30, 41, 59, 0.9);
+  background: linear-gradient(
+    to top,
+    rgba(2, 6, 23, 0.96),
+    rgba(2, 6, 23, 0.82)
+  );
+}
+
+@media (max-width: 768px) {
+  .chat-main {
+    border-radius: 1.5rem;
+  }
+
+  .chat-input-wrapper {
+    padding-bottom: 1rem;
+  }
+}
+
+/* Scrollbar styling */
+.chat-messages::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.8);
+}
+
+/* Markdown / prose styling */
+.prose-chat {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.prose-chat p {
+  margin: 0.4rem 0;
+}
+
+.prose-chat a {
+  color: #38bdf8;
+  text-decoration: underline;
+}
+
+.prose-chat ul,
+.prose-chat ol {
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+
+.prose-chat code {
+  font-family:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+  padding: 0.18rem 0.4rem;
+  border-radius: 0.375rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.prose-chat pre {
+  position: relative;
+  margin: 0.75rem 0;
+  padding: 0.85rem 0.9rem;
+  border-radius: 0.75rem;
+  background: radial-gradient(
+    circle at top left,
+    #020617 0,
+    #020617 40%,
+    #000 100%
+  );
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  overflow-x: auto;
+}
+
+.prose-chat pre code {
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+
+.prose-chat blockquote {
+  margin: 0.6rem 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid rgba(148, 163, 184, 0.7);
+  color: #9ca3af;
+}
+
+.message-bubble {
+  max-width: 780px;
+}
+
+.message-bubble-user {
+  background: radial-gradient(
+    circle at top right,
+    #22c55e 0,
+    #16a34a 45%,
+    #15803d 100%
+  );
+  color: #ecfdf5;
+}
+
+.message-bubble-assistant {
+  background: radial-gradient(
+    circle at top left,
+    #020617 0,
+    #020617 45%,
+    #000 100%
+  );
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.chat-input {
+  background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  padding-inline: 1rem;
+}
+
+.chat-input textarea {
+  resize: none;
+  outline: none;
+}
