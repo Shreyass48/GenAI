@@ -5,13 +5,7 @@ import { ChatInput } from "./ChatInput";
 import { ChatMessage, MessageBubble } from "./MessageBubble";
 
 export function ChatContainer() {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: "assistant",
-      content:
-        "Hi, I’m your AI assistant. Ask me anything about coding, architecture, or debugging.",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,7 +23,7 @@ export function ChatContainer() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("http://localhost:3001/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,9 +35,9 @@ export function ChatContainer() {
         throw new Error(`Request failed with status ${res.status}`);
       }
 
-      const data = (await res.json()) as { reply?: string };
+      const data = (await res.json()) as { message?: string };
       const reply =
-        data.reply ??
+        data.message ??
         "I received your message but the response format was unexpected.";
 
       const assistantMessage: ChatMessage = {
@@ -70,13 +64,13 @@ export function ChatContainer() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 border border-emerald-500/40">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Alpha chat</span>
+            <span>Online · Ready</span>
           </div>
           <h1 className="mt-2 text-lg font-semibold tracking-tight text-slate-50">
-            Engineer’s Copilot
+            Jarvis
           </h1>
           <p className="text-xs text-slate-400">
-            Ask questions, explore ideas, and iterate on code in one place.
+            Your smart daily assistant — ask me anything.
           </p>
         </div>
       </header>
