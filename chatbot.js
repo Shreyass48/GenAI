@@ -1,11 +1,13 @@
 import "dotenv/config";
 import Groq from "groq-sdk";
 import { webSearch } from "./tools.js";
+import NodeCache from "node-cache";
 
 const groq = new Groq({ apiKey: process.env.GROQ_LLM_KEY });
+const cache = new NodeCache({ stdTTL: 60 * 60 * 24 }); // cache results for 24 hours
 
-export async function generate({ userMessage }) {
-  const messages = [
+export async function generate({ userMessage, threadId }) {
+  const baseMessages = [
     {
       role: "system",
       content: `You are Jarvis, a smart personal assistant.
@@ -33,10 +35,20 @@ export async function generate({ userMessage }) {
     },
   ];
 
+  const messages = cache.get(threadId) ?? baseMessages;
+
   messages.push({ role: "user", content: userMessage });
+
+  const MAX_RETRIES = 10;
+  let retries = 0;
 
   // LLM react LOOP
   while (true) {
+    if (retries >= MAX_RETRIES) {
+      return "Sorry, I'm having trouble finding the information right now. Please try again later.";
+    }
+    retries++;
+
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       temperature: 0,
@@ -72,6 +84,7 @@ export async function generate({ userMessage }) {
     const tool_calls = completion.choices[0].message.tool_calls;
 
     if (!tool_calls) {
+      cache.set(threadId, messages);
       return completion.choices[0].message.content;
     }
 

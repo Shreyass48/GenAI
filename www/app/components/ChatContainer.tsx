@@ -8,9 +8,17 @@ export function ChatContainer() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const threadIdRef = useRef<string>("");
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    // Generate a random thread ID on mount
+    threadIdRef.current =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
   }, []);
 
   useEffect(() => {
@@ -28,7 +36,7 @@ export function ChatContainer() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: input, threadId: threadIdRef.current }),
       });
 
       if (!res.ok) {

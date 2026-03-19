@@ -12,8 +12,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/chat", async (req, res) => {
-  const { message } = req.body;
-  const result = await generate({ userMessage: message });
+  const { message, threadId } = req.body;
+
+  if (!message && !threadId) {
+    return res.status(400).json({ error: "Message and threadId are required" });
+  }
+
+  const result = await generate({ userMessage: message, threadId });
   res.json({ message: result });
 });
 
