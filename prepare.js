@@ -11,16 +11,17 @@ const embeddings = new OpenAIEmbeddings({
 const pinecone = new PineconeClient();
 const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX_NAME);
 
-const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
+export const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
   pineconeIndex,
-  // Maximum number of batch requests to allow at once. Each batch is 1000 vectors.
   maxConcurrency: 5,
 });
 
 export async function indexTheDocuments({ filePath }) {
+  // STEP 1 : load the PDF document
   const loader = new PDFLoader(filePath, { splitPages: false });
   const doc = await loader.load();
 
+  // STEP 2 : split the document into smaller chunks
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 500,
     chunkOverlap: 100,
@@ -35,5 +36,6 @@ export async function indexTheDocuments({ filePath }) {
   });
   console.log(documents);
 
+  // STEP 3 : create vector embeddings for each chunk and store in vector database
   await vectorStore.addDocuments(documents);
 }
